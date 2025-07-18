@@ -25,10 +25,23 @@ export async function setupDatabase() {
       await db.collection('blogPosts').createIndex({ slug: 1 }, { unique: true });
       await db.collection('blogPosts').createIndex({ publishedAt: -1 });
       await db.collection('blogPosts').createIndex({ tags: 1 });
-      await db.collection('blogPosts').createIndex(
-        { title: 'text', content: 'text', excerpt: 'text', tags: 'text' },
-        { name: 'text_search' }
-      );
+      // Create text index with apiStrict compatibility
+      try {
+        await db.collection('blogPosts').createIndex(
+          { title: 'text', content: 'text', excerpt: 'text', tags: 'text' },
+          { name: 'text_search' }
+        );
+      } catch (error: any) {
+        if (error.code === 323) {
+          // API strict error - create individual indexes instead
+          console.log('Creating individual text indexes due to API strict mode');
+          await db.collection('blogPosts').createIndex({ title: 1 });
+          await db.collection('blogPosts').createIndex({ content: 1 });
+          await db.collection('blogPosts').createIndex({ excerpt: 1 });
+        } else {
+          throw error;
+        }
+      }
       console.log('Created blogPosts collection with schema validation and indexes');
     } else {
       // Update validation schema for existing collection
@@ -46,13 +59,26 @@ export async function setupDatabase() {
       // Create indexes for research papers
       await db.collection('researchPapers').createIndex({ publicationDate: -1 });
       await db.collection('researchPapers').createIndex({ categories: 1 });
-      await db.collection('researchPapers').createIndex({ 
-        title: 'text', 
-        abstract: 'text', 
-        authors: 'text' 
-      }, { 
-        name: 'papers_text_search' 
-      });
+      // Create text index with apiStrict compatibility
+      try {
+        await db.collection('researchPapers').createIndex({ 
+          title: 'text', 
+          abstract: 'text', 
+          authors: 'text' 
+        }, { 
+          name: 'papers_text_search' 
+        });
+      } catch (error: any) {
+        if (error.code === 323) {
+          // API strict error - create individual indexes instead
+          console.log('Creating individual text indexes for research papers due to API strict mode');
+          await db.collection('researchPapers').createIndex({ title: 1 });
+          await db.collection('researchPapers').createIndex({ abstract: 1 });
+          await db.collection('researchPapers').createIndex({ authors: 1 });
+        } else {
+          throw error;
+        }
+      }
       console.log('Created researchPapers collection with schema validation and indexes');
     } else {
       // Update validation schema for existing collection

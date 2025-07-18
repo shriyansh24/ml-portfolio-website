@@ -34,7 +34,7 @@ export default function TransformerPage() {
       "name": "ML Portfolio",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://ml-portfolio.example.com/images/logo.png",
+        "url": "https://ml-portfolio.example.com/images/logo.svg",
       },
     },
     "datePublished": "2023-01-01",

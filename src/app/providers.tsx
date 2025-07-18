@@ -1,21 +1,18 @@
-'use client';
+"use client";
 
-import { SessionProvider } from 'next-auth/react';
-import { AuthProvider } from '@/components/auth/AuthProvider';
-import { ToastProvider } from '@/components/ui/Toast';
-import ErrorBoundary from '@/components/error/ErrorBoundary';
-import FallbackError from '@/components/error/FallbackError';
+import { SessionProvider } from "next-auth/react";
+import { AuthProvider } from "@/components/auth/AuthProvider";
 
-export function Providers({ children }: { children: React.ReactNode }) {
+interface ProvidersProps {
+  children: React.ReactNode;
+}
+
+export function Providers({ children }: ProvidersProps) {
   return (
-    <ErrorBoundary fallback={<FallbackError error={null} />}>
-      <SessionProvider>
-        <AuthProvider>
-          <ToastProvider>
-            {children}
-          </ToastProvider>
-        </AuthProvider>
-      </SessionProvider>
-    </ErrorBoundary>
+    <SessionProvider>
+      <AuthProvider>
+        {children}
+      </AuthProvider>
+    </SessionProvider>
   );
 }

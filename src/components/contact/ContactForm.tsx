@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, FormEvent } from "react";
 import { Button } from "@/components/ui/Button";
 import { motion } from "framer-motion";

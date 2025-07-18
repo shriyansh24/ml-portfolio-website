@@ -1,54 +1,57 @@
-import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import { NextAuthOptions } from "next-auth";
+import NextAuth from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import type { NextAuthOptions } from 'next-auth';
 
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
-      name: "Credentials",
+      name: 'credentials',
       credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' }
       },
       async authorize(credentials) {
-        // This is where you would validate the user credentials
-        // For now, we'll use a simple check for demo purposes
-        if (
-          credentials?.email === process.env.ADMIN_EMAIL &&
-          credentials?.password === process.env.ADMIN_PASSWORD
-        ) {
+        if (!credentials?.email || !credentials?.password) {
+          return null;
+        }
+
+        // For demo purposes, use a simple check
+        // In production, you'd verify against a database
+        if (credentials.email === 'admin@example.com' && credentials.password === 'admin123') {
           return {
-            id: "1",
+            id: '1',
             email: credentials.email,
-            role: "admin",
+            name: 'Admin User',
+            role: 'admin'
           };
         }
+
         return null;
-      },
-    }),
+      }
+    })
   ],
   session: {
-    strategy: "jwt",
-    maxAge: 60 * 60, // 1 hour
+    strategy: 'jwt',
   },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = user.role;
+        token.role = (user as any).role;
       }
       return token;
     },
     async session({ session, token }) {
-      if (session.user) {
+      if (token) {
+        (session.user as any).id = token.sub;
         (session.user as any).role = token.role;
       }
       return session;
     },
   },
   pages: {
-    signIn: "/login",
-    error: "/login",
+    signIn: '/login',
   },
+  secret: process.env.NEXTAUTH_SECRET,
 };
 
 const handler = NextAuth(authOptions);

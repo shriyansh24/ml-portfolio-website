@@ -21,11 +21,17 @@ export async function initializeDatabase() {
   hasInitialized = true;
   
   try {
+    // Skip database initialization if MongoDB URI is not provided
+    if (!process.env.MONGODB_URI) {
+      console.log('MongoDB URI not provided, skipping database initialization');
+      return;
+    }
+    
     // Check if database connection is working
     const isConnected = await checkDatabaseConnection();
     
     if (!isConnected) {
-      console.error('Failed to connect to database during initialization');
+      console.warn('Failed to connect to database during initialization - continuing without database');
       return;
     }
     
@@ -33,7 +39,7 @@ export async function initializeDatabase() {
     await setupDatabase();
     console.log('Database initialized successfully');
   } catch (error) {
-    console.error('Error initializing database:', error);
+    console.warn('Error initializing database - continuing without database:', error);
   }
 }
 

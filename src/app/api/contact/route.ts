@@ -1,55 +1,47 @@
-import { NextRequest, NextResponse } from "next/server";
-
-// Define the expected request body structure
-interface ContactFormData {
-  name: string;
-  email: string;
-  message: string;
-}
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
-    // Parse the request body
-    const body: ContactFormData = await request.json();
-    
-    // Validate required fields
-    if (!body.name || !body.email || !body.message) {
+    const body = await request.json();
+    const { name, email, message } = body;
+
+    // Basic validation
+    if (!name || !email || !message) {
       return NextResponse.json(
-        { message: "Name, email, and message are required fields" },
+        { error: { message: 'All fields are required' } },
         { status: 400 }
       );
     }
-    
-    // Validate email format
+
+    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(body.email)) {
+    if (!emailRegex.test(email)) {
       return NextResponse.json(
-        { message: "Please provide a valid email address" },
+        { error: { message: 'Please enter a valid email address' } },
         { status: 400 }
       );
     }
+
+    // In a real application, you would:
+    // 1. Save to database
+    // 2. Send email notification
+    // 3. Add spam protection
     
-    // In a real application, you would send an email here
-    // For example, using a service like SendGrid, AWS SES, or Nodemailer
-    
-    // For now, we'll simulate a successful email sending
-    console.log("Contact form submission:", {
-      name: body.name,
-      email: body.email,
-      message: body.message,
-    });
-    
-    // Return success response
+    console.log('Contact form submission:', { name, email, message });
+
+    // For now, just return success
     return NextResponse.json(
-      { message: "Message sent successfully!" },
+      { 
+        success: true, 
+        message: 'Thank you for your message! I\'ll get back to you soon.' 
+      },
       { status: 200 }
     );
+
   } catch (error) {
-    console.error("Error processing contact form submission:", error);
-    
-    // Return error response
+    console.error('Contact form error:', error);
     return NextResponse.json(
-      { message: "An error occurred while processing your request" },
+      { error: { message: 'Internal server error' } },
       { status: 500 }
     );
   }

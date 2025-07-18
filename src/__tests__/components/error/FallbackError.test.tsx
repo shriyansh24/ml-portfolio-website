@@ -1,7 +1,29 @@
+/**
+ * @jest-environment jsdom
+ */
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import FallbackError from "../../../components/error/FallbackError";
+import "@testing-library/jest-dom";
+import { expect } from "@playwright/test";
+import { expect } from "@playwright/test";
+import test from "@playwright/test";
+import { expect } from "@playwright/test";
+import test from "@playwright/test";
+import { expect } from "@playwright/test";
+import test from "@playwright/test";
+import { expect } from "@playwright/test";
+import test from "@playwright/test";
+import { expect } from "@playwright/test";
+import test from "@playwright/test";
+import { expect } from "@playwright/test";
+import { expect } from "@playwright/test";
+import { expect } from "@playwright/test";
+import { expect } from "@playwright/test";
+import test from "@playwright/test";
+import { beforeEach } from "node:test";
+import { describe } from "node:test";
 
 // Mock next/link
 jest.mock("next/link", () => {
@@ -35,26 +57,42 @@ describe("FallbackError Component", () => {
 
   test("shows error details in development environment", () => {
     const originalNodeEnv = process.env.NODE_ENV;
-    process.env.NODE_ENV = "development";
+    // Use Object.defineProperty to modify NODE_ENV since it's read-only
+    Object.defineProperty(process.env, "NODE_ENV", {
+      value: "development",
+      configurable: true,
+    });
 
     const testError = new Error("Test error message");
     render(<FallbackError error={testError} />);
 
     expect(screen.getByText(/Error: Test error message/)).toBeInTheDocument();
 
-    process.env.NODE_ENV = originalNodeEnv;
+    // Restore original NODE_ENV
+    Object.defineProperty(process.env, "NODE_ENV", {
+      value: originalNodeEnv,
+      configurable: true,
+    });
   });
 
   test("does not show error details in production environment", () => {
     const originalNodeEnv = process.env.NODE_ENV;
-    process.env.NODE_ENV = "production";
+    // Use Object.defineProperty to modify NODE_ENV since it's read-only
+    Object.defineProperty(process.env, "NODE_ENV", {
+      value: "production",
+      configurable: true,
+    });
 
     const testError = new Error("Test error message");
     render(<FallbackError error={testError} />);
 
     expect(screen.queryByText(/Error: Test error message/)).not.toBeInTheDocument();
 
-    process.env.NODE_ENV = originalNodeEnv;
+    // Restore original NODE_ENV
+    Object.defineProperty(process.env, "NODE_ENV", {
+      value: originalNodeEnv,
+      configurable: true,
+    });
   });
 
   test("reloads page when refresh button is clicked", async () => {

@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from 'react';
 import { ProjectCard } from './ProjectCard';
 import { ProjectFilter } from './ProjectFilter';

@@ -137,7 +137,7 @@ export function generateArticleData({
       "name": "ML Portfolio",
       "logo": {
         "@type": "ImageObject",
-        "url": `${baseUrl}/images/logo.png`,
+        "url": `${baseUrl}/images/logo.svg`,
       },
     },
     "datePublished": datePublished,

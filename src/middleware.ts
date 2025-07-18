@@ -44,5 +44,8 @@ export async function middleware(request: NextRequest) {
 
 // Configure the middleware to run only on specific paths
 export const config = {
-  matcher: [...protectedPaths, ...authPaths],
+  matcher: [
+    '/admin/:path*',
+    '/login',
+  ],
 };

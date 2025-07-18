@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ResearchPapersDB } from "@/lib/dbUtils";
-import { getServerSession } from "@/lib/auth";
+import { getSession } from "@/lib/auth";
 
 interface Params {
   params: {
@@ -44,7 +44,7 @@ export async function GET(request: NextRequest, { params }: Params) {
 export async function PUT(request: NextRequest, { params }: Params) {
   try {
     // Check authentication
-    const session = await getServerSession();
+    const session = await getSession();
     if (!session) {
       return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
     }
@@ -112,7 +112,7 @@ export async function PUT(request: NextRequest, { params }: Params) {
 export async function DELETE(request: NextRequest, { params }: Params) {
   try {
     // Check authentication
-    const session = await getServerSession();
+    const session = await getSession();
     if (!session) {
       return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
     }

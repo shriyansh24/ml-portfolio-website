@@ -27,15 +27,15 @@ export default function Contact({
   // Animation variants
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
-      transition: { 
+      transition: {
         duration: 0.6,
-        type: "spring",
-        stiffness: 50
-      }
-    }
+        type: "spring" as const,
+        stiffness: 50,
+      },
+    },
   };
 
   const staggerContainer = {
@@ -45,8 +45,8 @@ export default function Contact({
       transition: {
         staggerChildren: 0.15,
         delayChildren: 0.2,
-      }
-    }
+      },
+    },
   };
 
   return (
@@ -62,20 +62,17 @@ export default function Contact({
             <h2 className="text-3xl md:text-4xl font-bold mb-4">{title}</h2>
             <div className="h-1 w-20 bg-primary mx-auto"></div>
             {subtitle && (
-              <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-                {subtitle}
-              </p>
+              <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">{subtitle}</p>
             )}
           </motion.div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
             <motion.div variants={fadeInUp}>
               <p className="text-lg mb-6 leading-relaxed">
-                Interested in collaborating or have questions about my work?
-                Feel free to reach out using the contact form or through my
-                social media profiles.
+                Interested in collaborating or have questions about my work? Feel free to reach out
+                using the contact form or through my social media profiles.
               </p>
-              
+
               <div className="space-y-4 mb-8">
                 <div className="flex items-center gap-3">
                   <div className="bg-primary/10 p-3 rounded-full">
@@ -97,12 +94,15 @@ export default function Contact({
                   </div>
                   <div>
                     <p className="font-medium">Email</p>
-                    <a href={`mailto:${email}`} className="text-muted-foreground hover:text-primary transition-colors">
+                    <a
+                      href={`mailto:${email}`}
+                      className="text-muted-foreground hover:text-primary transition-colors"
+                    >
                       {email}
                     </a>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center gap-3">
                   <div className="bg-primary/10 p-3 rounded-full">
                     <svg
@@ -127,14 +127,11 @@ export default function Contact({
                   </div>
                 </div>
               </div>
-              
+
               <div className="flex gap-4 mt-6">
                 {socialLinks.github && (
-                  <motion.div
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <a 
+                  <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+                    <a
                       href={socialLinks.github}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -159,13 +156,10 @@ export default function Contact({
                     </a>
                   </motion.div>
                 )}
-                
+
                 {socialLinks.linkedin && (
-                  <motion.div
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <a 
+                  <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+                    <a
                       href={socialLinks.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -191,13 +185,10 @@ export default function Contact({
                     </a>
                   </motion.div>
                 )}
-                
+
                 {socialLinks.twitter && (
-                  <motion.div
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <a 
+                  <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+                    <a
                       href={socialLinks.twitter}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -223,7 +214,7 @@ export default function Contact({
                 )}
               </div>
             </motion.div>
-            
+
             <motion.div variants={fadeInUp}>
               <ContactForm />
             </motion.div>

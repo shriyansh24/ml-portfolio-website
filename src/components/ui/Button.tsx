@@ -1,6 +1,21 @@
 import { ButtonHTMLAttributes, forwardRef, AnchorHTMLAttributes } from "react";
-import { cn } from "@/lib/utils";
 import Link from "next/link";
+
+// Utility function for combining class names
+function cn(...classes: (string | undefined | null | false | Record<string, boolean>)[]): string {
+  return classes
+    .map(cls => {
+      if (typeof cls === 'object' && cls !== null) {
+        return Object.entries(cls)
+          .filter(([, condition]) => condition)
+          .map(([className]) => className)
+          .join(' ');
+      }
+      return cls;
+    })
+    .filter(Boolean)
+    .join(' ');
+}
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "default" | "primary" | "secondary" | "outline" | "ghost" | "link";
@@ -10,8 +25,14 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   external?: boolean;
 }
 
-// Separate props for anchor elements to fix TypeScript errors
-type AnchorProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof ButtonProps> & ButtonProps;
+// Props for anchor elements
+interface AnchorButtonProps extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'className'> {
+  variant?: "default" | "primary" | "secondary" | "outline" | "ghost" | "link";
+  size?: "default" | "sm" | "lg" | "icon";
+  className?: string;
+  href: string;
+  external?: boolean;
+}
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ 
@@ -44,7 +65,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     // If href is provided, render as Link or anchor
     if (href) {
       // Extract button-specific props that shouldn't be passed to anchor elements
-      const { type, ...restProps } = props;
+      const { type, disabled, form, formAction, formEncType, formMethod, formNoValidate, formTarget, name, value, ...anchorProps } = props;
       
       return external ? (
         <a 
@@ -52,7 +73,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           className={baseStyles}
           target="_blank"
           rel="noopener noreferrer"
-          {...restProps as AnchorProps}
+          {...(anchorProps as AnchorHTMLAttributes<HTMLAnchorElement>)}
         >
           {children}
         </a>
@@ -60,7 +81,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         <Link 
           href={href}
           className={baseStyles}
-          {...restProps as AnchorProps}
+          {...(anchorProps as AnchorHTMLAttributes<HTMLAnchorElement>)}
         >
           {children}
         </Link>

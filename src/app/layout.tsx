@@ -35,7 +35,7 @@ export const metadata = generateMetadata({
   schemaType: "WebSite",
   organization: {
     name: "ML Portfolio",
-    logo: "/images/logo.png",
+    logo: "/images/logo.svg",
     url: "https://ml-portfolio.example.com",
   },
 });
@@ -56,7 +56,7 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         
         {/* Preload critical assets */}
-        <link rel="preload" href="/images/logo.png" as="image" />
+        <link rel="preload" href="/images/logo.svg" as="image" />
         
         {/* DNS prefetch for external resources */}
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />

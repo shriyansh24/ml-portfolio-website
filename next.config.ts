@@ -21,16 +21,11 @@ const nextConfig: NextConfig = {
   // Enable React strict mode for better development experience
   reactStrictMode: true,
   
-  // Enable SWC minification for faster builds
-  swcMinify: true,
-  
   // Enable experimental features
   experimental: {
-    serverActions: true,
-    // Enable optimizeFonts for better font loading performance
-    optimizeFonts: true,
-    // Enable server components
-    serverComponents: true,
+    serverActions: {
+      allowedOrigins: ['localhost:3000'],
+    },
   },
   
   // Configure headers for security and performance

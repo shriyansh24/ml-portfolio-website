@@ -3,6 +3,26 @@
  */
 
 /**
+ * Utility function for combining class names
+ * @param classes Array of class names, booleans, or objects
+ * @returns Combined class names as a string
+ */
+export function cn(...classes: (string | undefined | null | false | Record<string, boolean>)[]): string {
+  return classes
+    .map(cls => {
+      if (typeof cls === 'object' && cls !== null) {
+        return Object.entries(cls)
+          .filter(([, condition]) => condition)
+          .map(([className]) => className)
+          .join(' ');
+      }
+      return cls;
+    })
+    .filter(Boolean)
+    .join(' ');
+}
+
+/**
  * Generate a URL-friendly slug from a string
  * @param text The text to convert to a slug
  * @returns A URL-friendly slug
