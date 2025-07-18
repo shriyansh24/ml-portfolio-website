@@ -1,0 +1,109 @@
+.visualizationWrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: auto;
+  background-color: var(--background);
+  border-radius: 0.5rem;
+}
+
+/* Component highlight styles */
+:global(.component-highlight) {
+  box-shadow: 0 0 0 2px rgba(0, 188, 212, 0.7), 0 0 15px rgba(0, 188, 212, 0.5);
+  transform: translateY(-2px);
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+/* Styles for the scroll-based visualization */
+:global(#scroll-container) {
+  width: 100%;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+:global(.scroll-section) {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 20px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+:global(.viz-container) {
+  width: 90%;
+  max-width: 800px;
+  min-height: 250px;
+  background-color: rgba(25, 25, 25, 0.5);
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* Interactive visualization specific styles */
+.interactiveContainer {
+  padding: 1rem;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.layerContainer {
+  margin-bottom: 1.5rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.layerContainer:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.activeLayer {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.2);
+}
+
+/* Token visualization */
+.token {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  margin-right: 0.25rem;
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+/* Attention visualization */
+.attentionLine {
+  stroke-width: 1.5;
+  transition: stroke-width 0.2s ease, opacity 0.2s ease;
+}
+
+.attentionLineHighlight {
+  stroke-width: 2.5;
+  opacity: 1;
+}
+
+/* Animation keyframes */
+@keyframes pulse {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+.pulsing {
+  animation: pulse 2s infinite ease-in-out;
+}

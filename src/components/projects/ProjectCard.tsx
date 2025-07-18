@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { PortfolioProject } from '@/types';
 import { cn } from '@/lib/utils';
@@ -9,27 +10,37 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project, className }: ProjectCardProps) {
-  const { title, description, technologies, githubUrl, liveUrl, imageUrl } = project;
+  const { id, title, description, technologies, githubUrl, liveUrl, imageUrl } = project;
   
   return (
     <div className={cn(
-      "flex flex-col rounded-lg overflow-hidden shadow-md bg-white dark:bg-gray-800 transition-all hover:shadow-lg",
+      "flex flex-col rounded-lg overflow-hidden shadow-md bg-white dark:bg-gray-800 transition-all hover:shadow-lg hover:translate-y-[-5px]",
       className
     )}>
-      {imageUrl && (
-        <div className="relative h-48 w-full overflow-hidden">
-          <Image
-            src={imageUrl}
-            alt={`${title} project thumbnail`}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          />
-        </div>
-      )}
+      <Link href={`/projects/${id}`} className="block">
+        {imageUrl ? (
+          <div className="relative h-48 w-full overflow-hidden">
+            <Image
+              src={imageUrl}
+              alt={`${title} project thumbnail`}
+              fill
+              className="object-cover transition-transform duration-300 hover:scale-105"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+          </div>
+        ) : (
+          <div className="h-48 w-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+            <span className="text-gray-500 dark:text-gray-400">No image available</span>
+          </div>
+        )}
+      </Link>
       
       <div className="flex flex-col flex-grow p-5 space-y-4">
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white">{title}</h3>
+        <Link href={`/projects/${id}`} className="block">
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white hover:text-primary dark:hover:text-primary transition-colors">
+            {title}
+          </h3>
+        </Link>
         
         <p className="text-gray-600 dark:text-gray-300 flex-grow">{description}</p>
         
@@ -45,27 +56,24 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
         </div>
         
         <div className="flex gap-3 mt-4">
+          <Button 
+            href={`/projects/${id}`}
+            variant="outline" 
+            size="sm"
+            className="flex-1"
+          >
+            View Details
+          </Button>
+          
           {githubUrl && (
             <Button 
               href={githubUrl} 
-              external 
-              variant="outline" 
-              size="sm"
-              className="flex-1"
-            >
-              GitHub
-            </Button>
-          )}
-          
-          {liveUrl && (
-            <Button 
-              href={liveUrl} 
               external 
               variant="primary" 
               size="sm"
               className="flex-1"
             >
-              Live Demo
+              GitHub
             </Button>
           )}
         </div>

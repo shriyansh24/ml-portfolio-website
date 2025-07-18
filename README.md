@@ -17,6 +17,7 @@ A professional portfolio website for a machine learning engineer specializing in
 - **Frontend**: React.js, Next.js, Tailwind CSS, Framer Motion
 - **Backend**: Next.js API Routes, MongoDB
 - **Authentication**: NextAuth.js
+- **File Storage**: Vercel Blob
 - **Deployment**: Vercel
 
 ## Getting Started
@@ -48,14 +49,33 @@ A professional portfolio website for a machine learning engineer specializing in
    ```
    Then edit `.env.local` with your own values.
 
-4. Run the development server:
+4. Set up Vercel Blob for file storage:
+   - If you're using Vercel for deployment:
+     ```bash
+     npx vercel link
+     npx vercel env pull .env.local
+     ```
+   - Create a Vercel Blob store:
+     ```bash
+     npx vercel blob create
+     ```
+   - Add the Blob token to your environment variables:
+     ```bash
+     npx vercel env add BLOB_READ_WRITE_TOKEN
+     ```
+   - For local development, you can also use:
+     ```bash
+     npx vercel env pull .env.local
+     ```
+
+5. Run the development server:
    ```bash
    npm run dev
    # or
    yarn dev
    ```
 
-5. Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
+6. Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
 ## Project Structure
 

@@ -1,4 +1,4 @@
-import { MongoClient, ServerApiVersion } from "mongodb";
+import { MongoClient, ServerApiVersion, Collection } from "mongodb";
 
 // Connection URI placeholder - should be replaced with environment variable in production
 const uri = process.env.MONGODB_URI || "mongodb://localhost:27017";
@@ -46,4 +46,37 @@ export async function getDatabase(dbName: string = "ml_portfolio") {
 export async function getCollection(collectionName: string, dbName: string = "ml_portfolio") {
   const db = await getDatabase(dbName);
   return db.collection(collectionName);
+}
+
+/**
+ * Collections cache to avoid repeated lookups
+ */
+const collectionsCache: Record<string, Collection> = {};
+
+/**
+ * Get a collection with caching for better performance
+ */
+export async function getCachedCollection(collectionName: string, dbName: string = "ml_portfolio") {
+  const cacheKey = `${dbName}:${collectionName}`;
+  
+  if (!collectionsCache[cacheKey]) {
+    collectionsCache[cacheKey] = await getCollection(collectionName, dbName);
+  }
+  
+  return collectionsCache[cacheKey];
+}
+
+/**
+ * Check if the database connection is working
+ */
+export async function checkDatabaseConnection(): Promise<boolean> {
+  try {
+    const client = await clientPromise;
+    await client.db("admin").command({ ping: 1 });
+    console.log("MongoDB connection successful");
+    return true;
+  } catch (error) {
+    console.error("MongoDB connection error:", error);
+    return false;
+  }
 }

@@ -1,131 +1,113 @@
-import Layout from "@/components/layout/Layout";
-import { generateMetadata } from "@/components/SEOHead";
-import { Button } from "@/components/ui/Button";
-import { motion } from "framer-motion";
+import { Metadata } from 'next';
+import TransformerVisualization from '@/components/transformer/TransformerVisualization';
+import { generateMetadata } from '@/components/SEOHead';
+import StructuredData, { generateBreadcrumbData } from '@/components/SEOStructuredData';
 
-export const metadata = generateMetadata({
-  title: "Transformer Visualization | ML Portfolio",
-  description:
-    "Interactive visualization of transformer architecture for understanding modern LLMs",
-  keywords: ["transformer", "visualization", "machine learning", "AI", "LLM", "interactive"],
-  ogType: "article",
-  publishedTime: "2023-09-15T12:00:00Z",
-  section: "AI Visualizations",
-  tags: ["transformer", "visualization", "machine learning", "AI", "LLM", "interactive"],
+// Generate metadata for the page
+export const metadata: Metadata = generateMetadata({
+  title: 'Interactive Transformer Architecture Visualization',
+  description: 'Explore the architecture of transformer models with this interactive visualization. Learn about attention mechanisms, encoder-decoder structures, and more.',
+  ogUrl: '/transformer',
+  ogType: 'website',
+  keywords: ['transformer', 'deep learning', 'attention mechanism', 'NLP', 'machine learning', 'visualization', 'interactive'],
+  schemaType: 'WebSite',
+  breadcrumbs: [
+    { name: 'Home', url: '/' },
+    { name: 'Transformer Visualization', url: '/transformer' },
+  ],
 });
 
+// Transformer visualization page component
 export default function TransformerPage() {
+  // Generate structured data for the page
+  const pageData = {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Interactive Transformer Architecture Visualization",
+    "description": "Explore the architecture of transformer models with this interactive visualization. Learn about attention mechanisms, encoder-decoder structures, and more.",
+    "author": {
+      "@type": "Person",
+      "name": "ML Engineer",
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "ML Portfolio",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://ml-portfolio.example.com/images/logo.png",
+      },
+    },
+    "datePublished": "2023-01-01",
+    "dateModified": "2023-01-01",
+    "image": "https://ml-portfolio.example.com/images/transformer-visualization.png",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://ml-portfolio.example.com/transformer",
+    },
+    "keywords": "transformer, deep learning, attention mechanism, NLP, machine learning, visualization, interactive",
+  };
+  
+  // Generate breadcrumb structured data
+  const breadcrumbData = generateBreadcrumbData([
+    { name: 'Home', url: '/' },
+    { name: 'Transformer Visualization', url: '/transformer' },
+  ]);
+  
   return (
-    <Layout>
-      <div className="container mx-auto py-12">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <h1 className="text-4xl font-bold mb-4">Transformer Architecture Visualization</h1>
-          <p className="text-lg text-muted-foreground mb-12 max-w-3xl">
-            An interactive visualization of transformer architecture to help understand how modern
-            Large Language Models work under the hood.
-          </p>
-        </motion.div>
-
-        <motion.div 
-          className="border border-border rounded-lg p-6 mb-12 shadow-sm"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
-        >
-          <div className="h-[500px] bg-muted flex items-center justify-center">
-            <span className="text-muted-foreground">
-              Transformer Visualization Will Be Integrated Here
-            </span>
-          </div>
-        </motion.div>
-
-        <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 gap-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4, duration: 0.5 }}
-        >
-          <div className="border border-border rounded-lg p-6 shadow-sm">
-            <h2 className="text-2xl font-bold mb-4">How It Works</h2>
-            <p className="mb-4">
-              This interactive visualization demonstrates the key components of transformer
-              architecture, including self-attention mechanisms, feed-forward networks, and how
-              information flows through the model during inference.
-            </p>
-            <p className="mb-6">
-              Interact with different parts of the visualization to see detailed explanations and
-              understand the role of each component in the overall architecture.
-            </p>
-            <Button variant="primary" href="#visualization">
-              Explore Visualization
-            </Button>
-          </div>
-          <div className="border border-border rounded-lg p-6 shadow-sm">
-            <h2 className="text-2xl font-bold mb-4">Key Components</h2>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3">
-                <span className="text-primary text-xl">•</span>
-                <div>
-                  <strong className="text-foreground">Self-Attention Mechanism:</strong>
-                  <p className="text-muted-foreground mt-1">
-                    Allows the model to weigh the importance of different words in relation to each other.
-                  </p>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-primary text-xl">•</span>
-                <div>
-                  <strong className="text-foreground">Feed-Forward Networks:</strong>
-                  <p className="text-muted-foreground mt-1">
-                    Process the attention outputs to create rich representations.
-                  </p>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-primary text-xl">•</span>
-                <div>
-                  <strong className="text-foreground">Layer Normalization:</strong>
-                  <p className="text-muted-foreground mt-1">
-                    Stabilizes the learning process by normalizing the inputs across features.
-                  </p>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-primary text-xl">•</span>
-                <div>
-                  <strong className="text-foreground">Residual Connections:</strong>
-                  <p className="text-muted-foreground mt-1">
-                    Help information flow through deep networks by adding inputs to outputs.
-                  </p>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </motion.div>
-        
-        <motion.div 
-          className="mt-12 text-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6, duration: 0.5 }}
-        >
-          <p className="text-muted-foreground mb-4">
-            Want to learn more about transformer architectures?
-          </p>
-          <div className="flex gap-4 justify-center">
-            <Button variant="outline" href="/blog" size="lg">
-              Read Blog Posts
-            </Button>
-            <Button variant="ghost" href="/research" size="lg">
-              View Research Papers
-            </Button>
-          </div>
-        </motion.div>
+    <div className="container mx-auto px-4 py-8">
+      {/* Add structured data */}
+      <StructuredData data={pageData} />
+      <StructuredData data={breadcrumbData} />
+      
+      <h1 className="text-4xl font-bold mb-4">Interactive Transformer Architecture Visualization</h1>
+      
+      <p className="text-lg mb-8">
+        Explore the architecture of transformer models with this interactive visualization.
+        Learn about attention mechanisms, encoder-decoder structures, and the components that
+        make transformers so powerful for natural language processing and other tasks.
+      </p>
+      
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+        <TransformerVisualization />
       </div>
-    </Layout>
+      
+      <div className="mt-12">
+        <h2 className="text-2xl font-bold mb-4">About Transformer Architecture</h2>
+        
+        <p className="mb-4">
+          The Transformer architecture, introduced in the paper "Attention Is All You Need" by Vaswani et al.,
+          revolutionized natural language processing and has become the foundation for models like BERT, GPT,
+          and T5. Unlike previous sequence models that used recurrence or convolution, Transformers rely
+          entirely on attention mechanisms to draw global dependencies between input and output.
+        </p>
+        
+        <p className="mb-4">
+          Key components of the Transformer architecture include:
+        </p>
+        
+        <ul className="list-disc pl-6 mb-6">
+          <li className="mb-2">
+            <strong>Multi-Head Attention:</strong> Allows the model to focus on different parts of the input sequence simultaneously
+          </li>
+          <li className="mb-2">
+            <strong>Positional Encoding:</strong> Provides information about the position of tokens in the sequence
+          </li>
+          <li className="mb-2">
+            <strong>Feed-Forward Networks:</strong> Process the attention output through fully connected layers
+          </li>
+          <li className="mb-2">
+            <strong>Layer Normalization:</strong> Stabilizes the learning process
+          </li>
+          <li className="mb-2">
+            <strong>Residual Connections:</strong> Help with gradient flow during training
+          </li>
+        </ul>
+        
+        <p>
+          This interactive visualization allows you to explore these components and understand how they work together
+          to process and generate sequences. Hover over different parts of the visualization to learn more about each component.
+        </p>
+      </div>
+    </div>
   );
 }

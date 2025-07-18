@@ -1,0 +1,101 @@
+.attentionContainer {
+  position: relative;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  background-color: rgba(59, 130, 246, 0.05);
+  transition: all 0.3s ease;
+}
+
+.attentionContainer:hover {
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+}
+
+.tokenBox {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.sourceToken {
+  background-color: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: rgb(59, 130, 246);
+}
+
+.sourceTokenActive {
+  background-color: rgb(59, 130, 246);
+  border: 1px solid rgb(37, 99, 235);
+  color: white;
+}
+
+.targetToken {
+  background-color: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  color: rgb(139, 92, 246);
+}
+
+.targetTokenActive {
+  background-color: rgb(139, 92, 246);
+  border: 1px solid rgb(124, 58, 237);
+  color: white;
+}
+
+.attentionLine {
+  stroke: rgba(59, 130, 246, 0.5);
+  stroke-width: 1.5;
+  transition: all 0.3s ease;
+}
+
+.attentionLineHighlight {
+  stroke: rgb(59, 130, 246);
+  stroke-width: 2.5;
+}
+
+.weightBar {
+  background-color: rgba(76, 175, 80, 0.7);
+  border-radius: 2px 2px 0 0;
+  transition: height 0.3s ease;
+}
+
+.weightBarHighlight {
+  background-color: rgb(255, 193, 7);
+}
+
+.weightLegend {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+.weightLegendItem {
+  display: flex;
+  align-items: center;
+  margin: 0 0.5rem;
+}
+
+.weightLegendColor {
+  width: 1rem;
+  height: 0.25rem;
+  margin-right: 0.25rem;
+  border-radius: 1px;
+}
+
+.lowWeight {
+  background-color: rgba(59, 130, 246, 0.2);
+}
+
+.medWeight {
+  background-color: rgba(59, 130, 246, 0.5);
+}
+
+.highWeight {
+  background-color: rgba(59, 130, 246, 0.9);
+}

@@ -1,5 +1,8 @@
 import Layout from "@/components/layout/Layout";
 import { generateMetadata } from "@/components/SEOHead";
+import PapersList from "@/components/research/PapersList";
+import { ResearchPapersDB } from "@/lib/dbUtils";
+import { getCollection } from "@/lib/db";
 
 export const metadata = generateMetadata({
   title: "Research Papers | ML Portfolio",
@@ -7,7 +10,47 @@ export const metadata = generateMetadata({
   keywords: ["research", "papers", "machine learning", "AI", "transformer", "LLM", "academic"],
 });
 
-export default function ResearchPage() {
+export const revalidate = 3600; // Revalidate every hour
+
+async function getCategories() {
+  try {
+    const collection = await getCollection('researchPapers');
+    
+    // Aggregate to get unique categories
+    const categoriesResult = await collection.aggregate([
+      { $unwind: '$categories' },
+      { $group: { _id: '$categories' } },
+      { $sort: { _id: 1 } }
+    ]).toArray();
+    
+    return categoriesResult.map(item => item._id);
+  } catch (error) {
+    console.error('Error fetching paper categories:', error);
+    return [];
+  }
+}
+
+export default async function ResearchPage({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  // Get query parameters
+  const category = typeof searchParams.category === 'string' ? searchParams.category : '';
+  const sortBy = typeof searchParams.sortBy === 'string' ? searchParams.sortBy : 'publicationDate';
+  const sortOrder = typeof searchParams.sortOrder === 'string' ? 
+    (searchParams.sortOrder === 'asc' ? 'asc' : 'desc') : 'desc';
+  const page = typeof searchParams.page === 'string' ? parseInt(searchParams.page) : 1;
+  
+  // Fetch papers with filters
+  const limit = 10;
+  const skip = (page - 1) * limit;
+  const options = { limit, skip, sortBy, sortOrder };
+  if (category) Object.assign(options, { category });
+  
+  const { papers, total, totalPages } = await ResearchPapersDB.getAll(options);
+  const categories = await getCategories();
+  
   return (
     <Layout>
       <div className="container mx-auto py-12">
@@ -16,40 +59,10 @@ export default function ResearchPage() {
           A curated collection of important research papers in machine learning and AI with my annotations.
         </p>
         
-        <div className="space-y-8">
-          {/* Research paper placeholders */}
-          {[1, 2, 3, 4, 5].map((i) => (
-            <div key={i} className="border border-border rounded-lg p-6">
-              <h2 className="text-xl font-bold mb-2">Research Paper Title {i}</h2>
-              <p className="text-sm text-muted-foreground mb-4">
-                Authors: Author One, Author Two, et al. • Published: 2023 • Conference: ICML
-              </p>
-              <p className="mb-4">
-                Abstract: This paper presents a novel approach to transformer architecture that improves
-                efficiency while maintaining performance on key NLP benchmarks.
-              </p>
-              <div className="flex flex-wrap gap-2 mb-4">
-                <span className="bg-muted text-xs px-2 py-1 rounded-full">Transformers</span>
-                <span className="bg-muted text-xs px-2 py-1 rounded-full">NLP</span>
-                <span className="bg-muted text-xs px-2 py-1 rounded-full">Efficiency</span>
-              </div>
-              <div className="flex gap-4">
-                <a 
-                  href={`/research/paper-${i}`} 
-                  className="text-primary hover:underline"
-                >
-                  View details
-                </a>
-                <a 
-                  href="#" 
-                  className="text-muted-foreground hover:underline"
-                >
-                  Original paper
-                </a>
-              </div>
-            </div>
-          ))}
-        </div>
+        <PapersList 
+          initialPapers={papers} 
+          initialCategories={categories}
+        />
       </div>
     </Layout>
   );
